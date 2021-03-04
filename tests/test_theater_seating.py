@@ -27,7 +27,7 @@ def verify_seating(seating, seats):
 
 def test_1():
     seats = []
-    inputs = sample(range(1, 9), 5)
+    inputs = sample(range(1, 10), 5)
     seating = TheaterSeating(inputs)
     for section, row in seating.items():
         flag = False

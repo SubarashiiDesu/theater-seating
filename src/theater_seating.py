@@ -27,9 +27,9 @@ class TheaterSeating(dict):
             self.apply_reservations(*input)
 
 
-    def show_table(self, highlight=None):
+    def show_table(self, highlight="reserved"):
         self.update_count()
-        cstyle = "bright_cyan blink2" if highlight == "available" else "bright_cyan"
+        cstyle = "bright_cyan bold blink2" if highlight == "available" else "bright_cyan bold"
         caption = Text(f"Available: {self.available_count}\t\t", style=cstyle)
         caption.append(Text(f"Unavailable: {self.unavailable_count}\t\t", style="dim strike"))
         cstyle = "green bold blink2" if highlight == "reserved" else "green bold"
@@ -115,16 +115,17 @@ class TheaterSeating(dict):
                         else:
                             deadend[0] = True
                     if not deadend[1]:
-                        if new_right + 1 < 20:
+                        if new_right + 1 <= 20:
                             dq.appendleft((row, new_left + 1, new_right + 1))
                         else:
                             deadend[1] = True
                     if not dq and all(deadend):
+                        deadend = [False, False]
                         row_up, row_down = self.shift_up(row), self.shift_down(row)
                         if row_up in self and not visited[row_up]:
                             dq.appendleft((row_up, left, right))
                             visited[row_up] = True
-                        elif row_down in self and not visited[row_down]:
+                        if row_down in self and not visited[row_down]:
                             dq.appendleft((row_down, left, right))
                             visited[row_down] = True
 
